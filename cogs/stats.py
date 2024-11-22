@@ -27,5 +27,5 @@ class Stats(commands.Cog):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Please state the server ID.")
 
-def setup(client):
-    client.add_cog(Stats(client))
+async def setup(client):
+    await client.add_cog(Stats(client))

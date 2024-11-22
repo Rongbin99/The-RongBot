@@ -1,5 +1,5 @@
-import discord, os
-from secrets_1 import bot_token
+import discord, os, asyncio
+from kokonuts import bot_token, cogs_path
 from discord.ext import commands, tasks
 
 intents = discord.Intents.all()
@@ -9,7 +9,7 @@ prefix = 'r.'
 
 client = commands.Bot(command_prefix = commands.when_mentioned_or(prefix), intents=intents, status=discord.Status.idle, activity=game, help_command=None)
 
-@client.slash_command(description = 'Sends the help menu for this bot.')
+@client.tree.command(name="help", description = 'Sends the help menu for this bot.')
 async def help(ctx):
     em = discord.Embed(title='The RongBot™️ Help Menu', description=f'Use {prefix}help <command> for specific help with that command.\n_ _\n < > indicates the value is required\n[ ] indicates the value is optional', color=ctx.author.color)
     em.add_field(name='Moderation', value=f'kick\nban\nunban\npurge\nuserinfo\nserverinfo')
@@ -150,24 +150,42 @@ async def ai(ctx):
 @client.command(help='Load an extention.')
 @commands.is_owner()
 async def load(ctx, extension):
-    client.load_extension(f'cogs.{extension}')
+    await client.load_extension(f'cogs.{extension}')
     await ctx.send(f'`{extension} has been loaded.`')
 
 @client.command(help='Unload an extention.')
 @commands.is_owner()
 async def unload(ctx, extension):
-    client.unload_extension(f'cogs.{extension}')
+    await client.unload_extension(f'cogs.{extension}')
     await ctx.send(f'`{extension} has been unloaded.`')
 
 @client.command(help='Reload an extention.')
 @commands.is_owner()
 async def reload(ctx, extension):
-    client.unload_extension(f'cogs.{extension}')
-    client.load_extension(f'cogs.{extension}')
+    await client.unload_extension(f'cogs.{extension}')
+    await client.load_extension(f'cogs.{extension}')
     await ctx.send(f'`{extension} has been reloaded.`')
 
-for filename in os.listdir('V:\Walnuts\CodingFiles\Python\The RongBot\cogs'):
-    if filename.endswith('.py'):
-        client.load_extension(f'cogs.{filename[:-3]}')
+#############################################################
 
-client.run(bot_token)
+async def main():
+    @client.event
+    async def on_ready():
+        print('The RongBot™️ is ready for operation.')
+
+        await client.tree.sync()
+        print('Slash commands synced.')
+
+        for filename in os.listdir(cogs_path):
+            if filename.endswith('.py'):
+                try:
+                    await client.load_extension(f'cogs.{filename[:-3]}')
+                    print(f'Loaded extensions: {filename}')
+                except Exception as e:
+                    print(f'Failed to load extension {filename}: {e}')
+
+    await client.start(bot_token)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+    

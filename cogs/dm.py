@@ -24,5 +24,5 @@ class DM(commands.Cog):
         if isinstance(error, commands.CommandInvokeError):
             await ctx.send(f'Wow how mean. They denied your message.\n||Ensure they have the *"allow direct messages from server members"* privacy setting **on**.||')
 
-def setup(client):
-    client.add_cog(DM(client))
+async def setup(client):
+    await client.add_cog(DM(client))
