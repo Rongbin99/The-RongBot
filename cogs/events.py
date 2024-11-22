@@ -6,10 +6,6 @@ class Events(commands.Cog):
         self.client = client
 
     @commands.Cog.listener()
-    async def on_ready(self):
-        print('The RongBot™️ is ready for operation.')
-
-    @commands.Cog.listener()
     async def on_member_join(self, member):
         print(f'Welcome {member} to the {member.guild} server!')
 
@@ -35,5 +31,5 @@ class Events(commands.Cog):
         if message.content == 'coconut':
             await message.add_reaction('\U0001F965')    
 
-def setup(client):
-    client.add_cog(Events(client))
+async def setup(client):
+    await client.add_cog(Events(client))

@@ -15,5 +15,5 @@ class Say(commands.Cog):
         await ctx.channel.purge(limit=1)
         await ctx.send(embed = discord.Embed(description=f'{message}', color=ctx.author.color))
 
-def setup(client):
-    client.add_cog(Say(client))
+async def setup(client):
+    await client.add_cog(Say(client))

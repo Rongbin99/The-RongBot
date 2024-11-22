@@ -34,8 +34,5 @@ class ValorantRank(commands.Cog):
             },))
             await ctx.send(response.read().decode()) 
 
-
-
-
-def setup(client):
-    client.add_cog(ValorantRank(client))
+async def setup(client):
+    await client.add_cog(ValorantRank(client))

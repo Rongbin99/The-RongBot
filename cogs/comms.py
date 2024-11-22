@@ -71,17 +71,17 @@ class Commands(commands.Cog):
     @commands.command(help='Good Walnut Bot', aliases=['pet'])
     async def good(self, ctx):
         emoji = '🥰'
-        num = open("V:\Walnuts\CodingFiles\Python\The RongBot\storage.txt", "r")
+        num = open("../storage.txt", "r")
         number = int(num.read())+1
         await ctx.send(f'Walnut has been petted {number} times! {emoji}')
         num.close()
-        num = open("V:\Walnuts\CodingFiles\Python\The RongBot\storage.txt", "w")
+        num = open("../storage.txt", "w")
         num.write(str(number))
         num.close()
     @commands.command(aliases=['petreset'])
     @has_guild_permissions(administrator=True)
     async def goodreset(self, ctx):
-        num = open("V:\Walnuts\CodingFiles\Python\The RongBot\storage.txt", "w")
+        num = open("../storage.txt", "w")
         num.write(str(0))
         num.close()
         await ctx.send(f'Successfully resetted.')
@@ -135,5 +135,5 @@ class Commands(commands.Cog):
             if number1 > 1:
                 await ctx.send(f'Total Heads: {heads} \nTotal Tails: {tails}')
 
-def setup(client):
-    client.add_cog(Commands(client))
+async def setup(client):
+    await client.add_cog(Commands(client))

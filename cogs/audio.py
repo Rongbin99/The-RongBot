@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands, tasks
 import os
-#broken
+# TODO: broken
 class Audio(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -46,5 +46,6 @@ class Audio(commands.Cog):
         voice.stop()
         await ctx.send(f'Stopped the audio.')
 
-def setup(client):
-    client.add_cog(Audio(client))
+async def setup(client):
+    await client.add_cog(Audio(client))
+    
